@@ -38,6 +38,12 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Notebook',
         component: () => import('@/views/notebook/index.vue'),
         meta: { title: '个人周报', icon: 'i-ep-notebook' }
+      },
+      {
+        path: '/finance',
+        name: 'Finance',
+        component: () => import('@/views/finance/index.vue'),
+        meta: { title: '理财看板', icon: 'i-ep-data-line' }
       }
     ]
   },

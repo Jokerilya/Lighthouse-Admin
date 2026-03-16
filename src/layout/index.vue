@@ -2,10 +2,10 @@
   <el-layout class="layout-wrapper h-screen w-full flex overflow-hidden">
     <!-- 侧边栏 -->
     <aside 
-      class="sidebar-container bg-[#304156] transition-all duration-300 relative"
+      class="sidebar-container bg-[#304156] transition-all duration-300 relative border-r border-[#ffffff10]"
       :class="appStore.sidebar.opened ? 'w-64' : 'w-16'"
     >
-      <div class="logo-container h-16 flex-center text-white overflow-hidden whitespace-nowrap px-4 border-b border-white border-opacity-10">
+      <div class="logo-container h-14 flex-center text-white overflow-hidden whitespace-nowrap px-4 border-b border-[#ffffff10]">
         <div class="i-ep-opportunity text-2xl mr-2 text-yellow-400 shrink-0" />
         <span v-show="appStore.sidebar.opened" class="font-bold text-lg tracking-wide uppercase">Lighthouse</span>
       </div>
@@ -31,6 +31,7 @@
           </template>
           <el-menu-item index="/todo">任务清单</el-menu-item>
           <el-menu-item index="/notebook">个人周报</el-menu-item>
+          <el-menu-item index="/finance">理财看板</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="system">
           <template #title>
@@ -43,9 +44,9 @@
     </aside>
 
     <!-- 主体内容 -->
-    <main class="main-container flex-1 flex flex-col min-w-0 bg-[#f5f7f9] relative">
+    <main class="main-container flex-1 flex flex-col min-w-0 bg-[var(--el-bg-color-page)] relative">
       <!-- 顶栏 -->
-      <header class="header-container h-14 bg-white shadow-sm flex-between px-4 z-10 shrink-0">
+      <header class="header-container h-14 bg-[var(--el-bg-color)] border-b border-[var(--el-border-color-lighter)] shadow-sm flex-between px-4 z-10 shrink-0">
         <div class="flex items-center">
           <div 
             class="text-xl cursor-pointer hover:text-primary transition-colors pr-4" 
@@ -58,7 +59,16 @@
           </el-breadcrumb>
         </div>
 
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-6">
+          <!-- 搜索 -->
+          <div 
+            class="text-xl cursor-pointer hover:text-primary transition-colors i-ep-search" 
+            @click="spotlightRef?.open()" 
+          />
+
+          <!-- 暗黑模式切换 -->
+          <theme-switch />
+          
           <el-dropdown trigger="click" @command="handleCommand">
             <div class="flex items-center cursor-pointer">
               <el-avatar :size="32" :src="userStore.userInfo?.avatar" class="mr-2" />
@@ -82,16 +92,23 @@
           </transition>
         </router-view>
       </section>
+
+      <!-- 全局搜索弹窗 -->
+      <spotlight ref="spotlightRef" />
     </main>
   </el-layout>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
 import { ElMessageBox, ElMessage } from 'element-plus'
+import ThemeSwitch from '@/components/ThemeSwitch/index.vue'
+import Spotlight from '@/components/Spotlight/index.vue'
+
+const spotlightRef = ref()
 
 const route = useRoute()
 const router = useRouter()

@@ -1,7 +1,7 @@
 <template>
   <div class="todo-container p-4 max-w-4xl mx-auto">
     <!-- 头部输入框 -->
-    <div class="header-input bg-white p-6 rounded-2xl shadow-sm mb-6 flex space-x-4 items-center">
+    <div class="header-input bg-[var(--el-bg-color)] p-4 sm:p-6 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 items-stretch sm:items-center">
       <el-input
         v-model="newTask.content"
         placeholder="添加一个新的任务..."
@@ -49,60 +49,67 @@
       <el-button link type="primary" size="small" @click="fetchList">刷新列表</el-button>
     </div>
 
-    <!-- 可拖拽列表 -->
-    <VueDraggable
-      v-model="list"
-      class="todo-list space-y-3"
-      animation="150"
-      ghost-class="ghost"
-      handle=".drag-handle"
-      @end="handleSortEnd"
-    >
-      <div
-        v-for="item in list"
-        :key="item.id"
-        class="todo-item bg-white p-4 rounded-xl shadow-sm border-l-4 flex items-center group transition-all"
-        :class="[
-          item.status === 1 ? 'opacity-60 grayscale border-gray-300' : 'border-primary',
-          getPriorityBorder(item.priority)
-        ]"
-      >
-        <!-- 拖拽手柄 -->
-        <div class="drag-handle i-ep-rank text-gray-300 cursor-move mr-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-        
-        <!-- 复选框 -->
-        <el-checkbox
-          :model-value="item.status"
-          :true-label="1"
-          :false-label="0"
-          size="large"
-          @change="(val: any) => { item.status = val; handleStatusChange(item); }"
-        />
-
-        <!-- 任务内容 -->
-        <div class="flex-1 ml-4 overflow-hidden">
-          <p 
-            class="text-gray-700 transition-all truncate"
-            :class="{ 'line-through text-gray-400': item.status === 1 }"
+    <el-skeleton :loading="loading" animated :count="3">
+      <template #template>
+        <div class="h-20 bg-gray-100 rounded-xl mb-3 dark:bg-gray-800" />
+      </template>
+      <template #default>
+        <!-- 可拖拽列表 -->
+        <VueDraggable
+          v-model="list"
+          class="todo-list space-y-3"
+          :animation="150"
+          ghost-class="ghost"
+          handle=".drag-handle"
+          @end="handleSortEnd"
+        >
+          <div
+            v-for="item in list"
+            :key="item.id"
+            class="todo-item bg-[var(--el-bg-color)] p-4 rounded-xl shadow-sm border-l-4 flex items-center group transition-all"
+            :class="[
+              item.status === 1 ? 'opacity-60 grayscale border-gray-300' : 'border-primary',
+              getPriorityBorder(item.priority)
+            ]"
           >
-            {{ item.content }}
-          </p>
-          <div class="flex items-center mt-1 space-x-4 text-[10px] text-gray-400">
-            <span class="flex items-center uppercase font-bold" :class="getPriorityColor(item.priority)">
-              {{ item.priority }}
-            </span>
-            <span>Created at {{ item.createTime }}</span>
+            <!-- 拖拽手柄 -->
+            <div class="drag-handle i-ep-rank text-gray-300 cursor-move mr-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+            
+            <!-- 复选框 -->
+            <el-checkbox
+              :model-value="item.status"
+              :true-label="1"
+              :false-label="0"
+              size="large"
+              @change="(val: any) => { item.status = val; handleStatusChange(item); }"
+            />
+    
+            <!-- 任务内容 -->
+            <div class="flex-1 ml-4 overflow-hidden">
+              <p 
+                class="text-[var(--el-text-color-primary)] transition-all truncate"
+                :class="{ 'line-through text-gray-400': item.status === 1 }"
+              >
+                {{ item.content }}
+              </p>
+              <div class="flex items-center mt-1 space-x-4 text-[10px] text-gray-400">
+                <span class="flex items-center uppercase font-bold" :class="getPriorityColor(item.priority)">
+                  {{ item.priority }}
+                </span>
+                <span>Created at {{ item.createTime }}</span>
+              </div>
+            </div>
+    
+            <!-- 操作按钮 -->
+            <div class="flex items-center space-x-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+              <el-button link type="danger" @click="handleDelete(item)">
+                <template #icon><i class="i-ep-delete" /></template>
+              </el-button>
+            </div>
           </div>
-        </div>
-
-        <!-- 操作按钮 -->
-        <div class="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <el-button link type="danger" @click="handleDelete(item)">
-            <template #icon><i class="i-ep-delete" /></template>
-          </el-button>
-        </div>
-      </div>
-    </VueDraggable>
+        </VueDraggable>
+      </template>
+    </el-skeleton>
 
     <!-- 空状态 -->
     <div v-if="list.length === 0 && !loading" class="flex-center py-20 flex-col text-gray-300">

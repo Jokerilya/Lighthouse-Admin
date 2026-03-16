@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import { viteMockServe } from 'vite-plugin-mock'
 import { resolve } from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +15,13 @@ export default defineConfig({
     viteMockServe({
       mockPath: 'src/mock',
       enable: true,
+    }),
+    // 打包体积分析
+    visualizer({
+      open: true,
+      filename: 'stats.html',
+      gzipSize: true,
+      brotliSize: true,
     }),
   ],
   resolve: {

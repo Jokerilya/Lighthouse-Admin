@@ -1,20 +1,20 @@
 <template>
   <div class="notebook-container h-full flex space-x-4 bg-transparent overflow-hidden">
     <!-- 左侧列表栏 -->
-    <div class="list-sidebar w-80 bg-white rounded-xl shadow-sm flex flex-col shrink-0 overflow-hidden">
-      <div class="p-4 border-b flex-between bg-gray-50/50">
-        <span class="font-bold text-gray-700">周报历史</span>
+    <div class="list-sidebar w-80 bg-[var(--el-bg-color)] rounded-xl shadow-sm flex flex-col shrink-0 overflow-hidden">
+      <div class="p-4 border-b border-[var(--el-border-color-lighter)] flex-between bg-[var(--el-fill-color-light)]">
+        <span class="font-bold text-[var(--el-text-color-primary)]">周报历史</span>
         <el-button type="primary" size="small" circle icon="i-ep-plus" @click="handleCreate" />
       </div>
       <div class="flex-1 overflow-y-auto p-2 space-y-2">
         <div
           v-for="item in reports"
           :key="item.id"
-          class="report-item p-3 rounded-lg border border-transparent cursor-pointer transition-all hover:bg-gray-50"
-          :class="{ 'active-report !bg-blue-50 !border-blue-100': currentReport?.id === item.id }"
+          class="report-item p-3 rounded-lg border border-transparent cursor-pointer transition-all hover:bg-[var(--el-fill-color-light)]"
+          :class="{ 'active-report !bg-[var(--el-color-primary-light-9)] !border-[var(--el-color-primary-light-8)]': currentReport?.id === item.id }"
           @click="selectReport(item)"
         >
-          <div class="text-sm font-medium text-gray-800 line-clamp-1 mb-1">{{ item.title }}</div>
+          <div class="text-sm font-medium text-[var(--el-text-color-primary)] line-clamp-1 mb-1">{{ item.title }}</div>
           <div class="text-[11px] text-gray-400 flex items-center justify-between">
             <span>{{ item.updateTime }}</span>
             <el-button 
@@ -32,7 +32,7 @@
 
     <!-- 右侧编辑区域 -->
     <div v-if="currentReport" class="flex-1 flex flex-col space-y-4 overflow-hidden">
-      <div class="bg-white p-4 rounded-xl shadow-sm flex-between">
+      <div class="bg-[var(--el-bg-color)] p-4 rounded-xl shadow-sm flex-between">
         <div class="flex items-center space-x-4 flex-1">
           <el-input 
             v-model="currentReport.title" 
@@ -51,18 +51,19 @@
         </div>
       </div>
 
-      <div class="flex-1 bg-white rounded-xl shadow-sm overflow-hidden p-2">
+      <div class="flex-1 bg-[var(--el-bg-color)] rounded-xl shadow-sm overflow-hidden p-2">
         <MdEditor 
           v-model="currentReport.content" 
           :preview="true" 
           @onSave="handleSave"
           class="!h-full"
           language="zh-CN"
+          :theme="isDark ? 'dark' : 'light'"
         />
       </div>
     </div>
 
-    <div v-else class="flex-1 bg-white rounded-xl shadow-sm flex-center flex-col text-gray-300">
+    <div v-else class="flex-1 bg-[var(--el-bg-color)] rounded-xl shadow-sm flex-center flex-col text-gray-300">
       <i class="i-ep-notebook text-8xl mb-4 opacity-10" />
       <p>选择或创建一个周报开始记录吧</p>
       <el-button type="primary" class="mt-4" @click="handleCreate">新建周报</el-button>
@@ -72,6 +73,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useDark } from '@vueuse/core'
 import { MdEditor } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -84,6 +86,7 @@ interface Report {
   updateTime?: string
 }
 
+const isDark = useDark()
 const reports = ref<Report[]>([])
 const currentReport = ref<Report | null>(null)
 const saving = ref(false)

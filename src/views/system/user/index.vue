@@ -1,5 +1,5 @@
 <template>
-  <div class="user-container bg-white p-6 rounded-xl shadow-sm min-h-full flex flex-col">
+  <div class="user-container bg-[var(--el-bg-color)] p-6 rounded-xl shadow-sm min-h-full flex flex-col">
     <!-- 搜索栏 -->
     <el-form :inline="true" :model="queryParams" ref="queryFormRef" class="mb-6">
       <el-form-item label="用户名" prop="username">
@@ -40,7 +40,7 @@
       v-loading="loading" 
       :data="tableData" 
       class="flex-1"
-      header-cell-class-name="bg-gray-50 text-gray-700 font-bold"
+      header-cell-class-name="!bg-[var(--el-fill-color-light)] !text-[var(--el-text-color-primary)] font-bold"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" />

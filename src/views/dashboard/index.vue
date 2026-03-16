@@ -1,22 +1,32 @@
 <template>
   <div class="dashboard-container">
-    <!-- 统计卡片 -->
     <el-row :gutter="20">
-      <el-col :span="6" v-for="(item, index) in statistics" :key="index">
-        <el-card shadow="hover" class="stat-card border-none !rounded-xl overflow-hidden relative">
-          <div class="flex-between">
-            <div>
-              <div class="text-gray-400 text-sm mb-2 uppercase tracking-wider">{{ item.title }}</div>
-              <div class="text-2xl font-bold text-gray-700">{{ item.value }}</div>
-            </div>
-            <div :class="[item.icon, item.color, 'text-4xl opacity-80']" />
-          </div>
-          <div class="mt-4 pt-4 border-t border-gray-50 text-xs text-gray-400 flex items-center">
-            <span class="text-green-500 font-bold mr-1">↑ {{ item.growth }}%</span>
-            较昨日
-          </div>
-        </el-card>
-      </el-col>
+      <el-skeleton :loading="loading" animated :count="4">
+        <template #template>
+          <el-col :span="6">
+            <el-card shadow="never" class="border-none !rounded-xl mb-4">
+              <el-skeleton-item variant="rect" height="100px" />
+            </el-card>
+          </el-col>
+        </template>
+        <template #default>
+          <el-col :span="6" v-for="(item, index) in statistics" :key="index">
+            <el-card shadow="hover" class="stat-card border-none !rounded-xl overflow-hidden relative mb-4">
+              <div class="flex-between">
+                <div>
+                  <div class="text-gray-400 text-sm mb-2 uppercase tracking-wider">{{ item.title }}</div>
+                  <div class="text-2xl font-bold">{{ item.value }}</div>
+                </div>
+                <div :class="[item.icon, item.color, 'text-4xl opacity-80']" />
+              </div>
+              <div class="mt-4 pt-4 border-t border-[var(--el-border-color-lighter)] text-xs text-gray-400 flex items-center">
+                <span class="text-green-500 font-bold mr-1">↑ {{ item.growth }}%</span>
+                较昨日
+              </div>
+            </el-card>
+          </el-col>
+        </template>
+      </el-skeleton>
     </el-row>
 
     <!-- 图表与列表 -->
@@ -57,12 +67,22 @@ const appStore = useAppStore()
 const chartRef = ref<HTMLElement>()
 let myChart: echarts.ECharts | null = null
 
+const loading = ref(true)
 const statistics = ref([
   { title: '待办任务', value: '12', icon: 'i-ep-list', color: 'text-blue-500', growth: '12' },
   { title: '学习时长', value: '3.5h', icon: 'i-ep-timer', color: 'text-orange-500', growth: '5' },
   { title: '周报完成', value: '85%', icon: 'i-ep-document', color: 'text-green-500', growth: '10' },
   { title: '提醒事项', value: '3', icon: 'i-ep-bell', color: 'text-purple-500', growth: '0' }
 ])
+
+onMounted(() => {
+  // 模拟加载
+  setTimeout(() => {
+    loading.value = false
+    initChart()
+  }, 800)
+  window.addEventListener('resize', () => myChart?.resize())
+})
 
 /**
  * 初始化图表
@@ -111,11 +131,6 @@ watch(() => appStore.sidebar.opened, () => {
   setTimeout(() => {
     myChart?.resize()
   }, 300)
-})
-
-onMounted(() => {
-  initChart()
-  window.addEventListener('resize', () => myChart?.resize())
 })
 
 onUnmounted(() => {

@@ -25,11 +25,11 @@
 
     <!-- 操作按钮区 -->
     <div class="mb-4">
-      <el-button type="primary" @click="handleAdd">
+      <el-button v-hasPerm="['system:user:add']" type="primary" @click="handleAdd">
         <template #icon><i class="i-ep-plus" /></template>
         {{ $t('user.add') }}
       </el-button>
-      <el-button type="danger" plain @click="handleBatchDelete">
+      <el-button v-hasPerm="['system:user:remove']" type="danger" plain @click="handleBatchDelete">
         <template #icon><i class="i-ep-delete" /></template>
         {{ $t('user.batchDelete') }}
       </el-button>
@@ -49,9 +49,9 @@
       <el-table-column prop="nickname" :label="$t('user.nickname')" min-width="120" />
       <el-table-column prop="role" :label="$t('user.role')" width="100">
         <template #default="{ row }">
-          <el-tag :type="row.role === 'admin' ? 'danger' : 'info'">
-            {{ row.role === 'admin' ? $t('user.admin') : $t('user.normal') }}
-          </el-tag>
+          <el-tag v-if="row.role === 'admin'" type="danger">超级管理员</el-tag>
+          <el-tag v-else-if="row.role === 'common'" type="warning">普通员工</el-tag>
+          <el-tag v-else type="info">访客</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="email" :label="$t('user.email')" min-width="180" />
@@ -68,11 +68,11 @@
       <el-table-column prop="createTime" :label="$t('user.createTime')" width="180" align="center" />
       <el-table-column :label="$t('user.action')" width="180" fixed="right" align="center">
         <template #default="{ row }">
-          <el-button link type="primary" @click="handleEdit(row)">
+          <el-button v-hasPerm="['system:user:edit']" link type="primary" @click="handleEdit(row)">
             <template #icon><i class="i-ep-edit" /></template>
             {{ $t('user.edit') }}
           </el-button>
-          <el-button link type="danger" @click="handleDelete(row)">
+          <el-button v-hasPerm="['system:user:remove']" link type="danger" @click="handleDelete(row)">
             <template #icon><i class="i-ep-delete" /></template>
             {{ $t('user.delete') }}
           </el-button>
@@ -109,8 +109,9 @@
         </el-form-item>
         <el-form-item label="角色">
           <el-select v-model="userForm.role" placeholder="请选择角色" class="w-full">
-            <el-option label="管理员" value="admin" />
-            <el-option label="普通用户" value="visitor" />
+            <el-option label="超级管理员" value="admin" />
+            <el-option label="普通员工" value="common" />
+            <el-option label="访客" value="guest" />
           </el-select>
         </el-form-item>
       </el-form>

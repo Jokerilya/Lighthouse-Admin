@@ -4,7 +4,21 @@
     "logout": "Logout",
     "profile": "Profile",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "status": "Status",
+    "normal": "Normal",
+    "disabled": "Disabled",
+    "createTime": "Create Time",
+    "action": "Action",
+    "save": "Save",
+    "tip": "Tip",
+    "success": "Success",
+    "error": "Error"
   },
   "menu": {
     "dashboard": "Dashboard",
@@ -13,7 +27,14 @@
     "notebook": "Notebook",
     "finance": "Finance",
     "system": "System",
-    "user": "User"
+    "user": "User Management",
+    "role": "Role Management",
+    "menu": "Menu Management",
+    "dept": "Dept Management",
+    "dict": "Dict Management",
+    "home": "Home",
+    "tool": "Efficiency Tools",
+    "assets": "Asset Management"
   },
   "user": {
     "name": "Username",
@@ -31,6 +52,40 @@
     "delete": "Delete",
     "admin": "Admin",
     "normal": "User"
+  },
+  "system": {
+    "role": {
+      "name": "Role Name",
+      "key": "Role Key",
+      "sort": "Sort",
+      "assign": "Permissions",
+      "add": "Add Role"
+    },
+    "menu": {
+      "name": "Menu Name",
+      "type": "Menu Type",
+      "order": "Order",
+      "perms": "Permission Key",
+      "path": "Route Path",
+      "component": "Component",
+      "icon": "Icon",
+      "add": "Add Menu",
+      "dir": "Directory",
+      "menu": "Menu",
+      "button": "Button"
+    },
+    "dept": {
+      "name": "Dept Name",
+      "leader": "Leader",
+      "add": "Add Dept"
+    },
+    "dict": {
+      "name": "Dict Name",
+      "type": "Dict Type",
+      "remark": "Remark",
+      "data": "Data Manage",
+      "add": "Add Type"
+    }
   },
   "dashboard": {
     "welcome": "Welcome back",

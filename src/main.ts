@@ -6,6 +6,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import App from './App.vue'
+import permissionDirective from './directives/permission'
 import router from './router'
 // 导入路由鉴权
 import './router/permission'
@@ -28,6 +29,8 @@ if (import.meta.env.PROD) {
 
 const app = createApp(App)
 
+// 注册按钮权限指令
+permissionDirective(app)
 // 注册状态管理
 app.use(createPinia())
 // 注册路由

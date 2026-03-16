@@ -4,11 +4,23 @@ import { createProdMockServer } from 'vite-plugin-mock/client'
 import userMock from './mock/user'
 import todoMock from './mock/todo'
 import notebookMock from './mock/notebook'
+import dictMock from './mock/dict'
+import deptMock from './mock/dept'
+import menuMock from './mock/menu'
+import roleMock from './mock/role'
 
 /**
  * 手动创建生产环境的 Mock 服务
  * 这样打包后，Mock 数据会被打包进 JS 文件中，在浏览器端拦截 Ajax 请求
  */
 export function setupProdMockServer() {
-  createProdMockServer([...userMock, ...todoMock, ...notebookMock])
+  createProdMockServer([
+    ...userMock,
+    ...todoMock,
+    ...notebookMock,
+    ...dictMock,
+    ...deptMock,
+    ...menuMock,
+    ...roleMock
+  ])
 }

@@ -1,6 +1,18 @@
 import request from '@/utils/request'
 
 /**
+ * 登录
+ */
+export function login(data: any) {
+  return request({
+    url: '/login',
+    method: 'post',
+    data,
+    loading: true
+  } as any)
+}
+
+/**
  * 获取用户列表
  */
 export function getUserList(params: any) {
@@ -53,3 +65,4 @@ export function batchDeleteUser(ids: number[]) {
     data: { ids }
   })
 }
+

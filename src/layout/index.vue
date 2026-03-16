@@ -1,5 +1,5 @@
 <template>
-  <el-layout class="layout-wrapper h-screen w-full flex overflow-hidden">
+  <div class="layout-wrapper h-screen w-full flex overflow-hidden">
     <!-- 侧边栏 -->
     <aside 
       class="sidebar-container bg-[#304156] transition-all duration-300 relative border-r border-[#ffffff10]"
@@ -20,26 +20,11 @@
         router
         class="border-none !w-full"
       >
-        <el-menu-item index="/dashboard">
-          <i class="i-ep-monitor mr-2" />
-          <template #title>{{ $t('menu.dashboard') }}</template>
-        </el-menu-item>
-        <el-sub-menu index="task">
-          <template #title>
-            <i class="i-ep-list mr-2" />
-            <span>{{ $t('menu.personal') }}</span>
-          </template>
-          <el-menu-item index="/todo">{{ $t('menu.todo') }}</el-menu-item>
-          <el-menu-item index="/notebook">{{ $t('menu.notebook') }}</el-menu-item>
-          <el-menu-item index="/finance">{{ $t('menu.finance') }}</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="system">
-          <template #title>
-            <i class="i-ep-setting mr-2" />
-            <span>{{ $t('menu.system') }}</span>
-          </template>
-          <el-menu-item index="/system/user">{{ $t('menu.user') }}</el-menu-item>
-        </el-sub-menu>
+        <SidebarItem
+          v-for="menu in permissionStore.menuList"
+          :key="menu.path"
+          :item="menu"
+        />
       </el-menu>
     </aside>
 
@@ -55,8 +40,8 @@
             <div :class="appStore.sidebar.opened ? 'i-ep-fold' : 'i-ep-expand'" />
           </div>
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="route.meta.title">{{ route.meta.title }}</el-breadcrumb-item>
+            <el-breadcrumb-item to="/">{{ $t('menu.home') }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="route.meta.title">{{ $t(String(route.meta.title)) }}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
 
@@ -109,7 +94,7 @@
       <!-- 全局搜索弹窗 -->
       <spotlight ref="spotlightRef" />
     </main>
-  </el-layout>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -125,6 +110,8 @@ import ThemeSwitch from '@/components/ThemeSwitch/index.vue'
 import Spotlight from '@/components/Spotlight/index.vue'
 import TagsView from './components/TagsView/index.vue'
 import Notification from './components/Notification/index.vue'
+import SidebarItem from './components/SidebarItem.vue'
+import { usePermissionStore } from '@/store/permission'
 
 const { locale: appLocale } = useI18n()
 const { setWatermark } = useWatermark()
@@ -135,6 +122,7 @@ const router = useRouter()
 const appStore = useAppStore()
 const userStore = useUserStore()
 const tagsViewStore = useTagsViewStore()
+const permissionStore = usePermissionStore()
 
 const activeMenu = computed(() => route.path)
 

@@ -10,7 +10,14 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+dist.zip
 *.local
+
+
+# 临时文件
+项目需求.md
+项目需求04.md
+打包云服务流程.md
 
 # Editor directories and files
 .vscode/*

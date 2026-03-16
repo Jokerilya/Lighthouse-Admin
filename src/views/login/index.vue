@@ -49,7 +49,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import request from '@/utils/request'
+import { login } from '@/api/user'
 import { useUserStore } from '@/store/user'
 
 const router = useRouter()
@@ -80,13 +80,7 @@ const handleLogin = async () => {
       loading.value = true
       try {
         // 调用 Mock 登录接口
-        const data: any = await request({
-          url: '/login',
-          method: 'post',
-          data: loginForm,
-          // 这里可以自定义 loading
-          loading: true
-        } as any)
+        const data: any = await login(loginForm)
 
         ElMessage.success('登录成功')
         // 存储 Token 和用户信息

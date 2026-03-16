@@ -4,7 +4,21 @@
     "logout": "退出登录",
     "profile": "个人中心",
     "confirm": "确定",
-    "cancel": "取消"
+    "cancel": "取消",
+    "reset": "重置",
+    "add": "新增",
+    "edit": "编辑",
+    "delete": "删除",
+    "view": "查看",
+    "status": "状态",
+    "normal": "正常",
+    "disabled": "停用",
+    "createTime": "创建时间",
+    "action": "操作",
+    "save": "保存",
+    "tip": "提示",
+    "success": "操作成功",
+    "error": "操作失败"
   },
   "menu": {
     "dashboard": "仪表盘",
@@ -13,7 +27,14 @@
     "notebook": "个人周报",
     "finance": "理财看板",
     "system": "系统管理",
-    "user": "用户管理"
+    "user": "用户管理",
+    "role": "角色管理",
+    "menu": "菜单管理",
+    "dept": "部门管理",
+    "dict": "字典管理",
+    "home": "首页",
+    "tool": "效率工具",
+    "assets": "资产管理"
   },
   "user": {
     "name": "用户名",
@@ -31,6 +52,40 @@
     "delete": "删除",
     "admin": "管理员",
     "normal": "普通用户"
+  },
+  "system": {
+    "role": {
+      "name": "角色名称",
+      "key": "权限字符",
+      "sort": "排序",
+      "assign": "权限分配",
+      "add": "新增角色"
+    },
+    "menu": {
+      "name": "菜单名称",
+      "type": "菜单类型",
+      "order": "排序",
+      "perms": "权限标识",
+      "path": "路由路径",
+      "component": "组件路径",
+      "icon": "图标",
+      "add": "新增菜单",
+      "dir": "目录",
+      "menu": "菜单",
+      "button": "按钮"
+    },
+    "dept": {
+      "name": "部门名称",
+      "leader": "负责人",
+      "add": "新增部门"
+    },
+    "dict": {
+      "name": "字典名称",
+      "type": "字典类型",
+      "remark": "备注",
+      "data": "数据管理",
+      "add": "新增类型"
+    }
   },
   "dashboard": {
     "welcome": "欢迎回来",

@@ -7,6 +7,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
+  // 确保注入最新的环境变量
   return {
     base: './', // 设置为相对路径，支持 GitHub Pages 等非根目录部署
     plugins: [

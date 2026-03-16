@@ -8,7 +8,7 @@
         class="tag-item px-3 h-7 flex items-center rounded-md text-xs cursor-pointer transition-all border border-transparent whitespace-nowrap group select-none"
         :class="isActive(tag) ? 'bg-primary/10 text-primary border-primary/20 !font-bold' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
       >
-        <span class="mr-1">{{ tag.title }}</span>
+        <span class="mr-1">{{ $t(tag.title || '') }}</span>
         <i 
           v-if="!tag.meta?.affix"
           class="i-ep-close text-[10px] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"

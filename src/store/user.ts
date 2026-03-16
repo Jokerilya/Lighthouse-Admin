@@ -4,6 +4,7 @@ interface UserState {
   token: string | null
   userInfo: {
     username: string
+    nickname: string
     avatar: string
     roles: string[]
   } | null

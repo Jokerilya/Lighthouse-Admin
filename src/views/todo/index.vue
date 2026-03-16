@@ -4,7 +4,7 @@
     <div class="header-input bg-[var(--el-bg-color)] p-4 sm:p-6 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 items-stretch sm:items-center">
       <el-input
         v-model="newTask.content"
-        placeholder="添加一个新的任务..."
+        :placeholder="$t('todo.placeholder')"
         clearable
         @keyup.enter="handleAdd"
         class="!rounded-xl flex-1"
@@ -14,39 +14,39 @@
         </template>
       </el-input>
       <el-select v-model="newTask.priority" class="!w-32">
-        <el-option label="高优先级" value="high">
+        <el-option :label="$t('todo.priority.high')" value="high">
           <template #default>
             <span class="flex items-center text-red-500 font-bold">
-              <i class="i-ep-warning mr-1" /> 高
+              <i class="i-ep-warning mr-1" /> {{ $t('todo.priority.high') }}
             </span>
           </template>
         </el-option>
-        <el-option label="中优先级" value="medium">
+        <el-option :label="$t('todo.priority.medium')" value="medium">
           <template #default>
             <span class="flex items-center text-orange-500 font-bold">
-              <i class="i-ep-warning mr-1" /> 中
+              <i class="i-ep-warning mr-1" /> {{ $t('todo.priority.medium') }}
             </span>
           </template>
         </el-option>
-        <el-option label="低优先级" value="low">
+        <el-option :label="$t('todo.priority.low')" value="low">
           <template #default>
             <span class="flex items-center text-green-500 font-bold">
-              <i class="i-ep-warning mr-1" /> 低
+              <i class="i-ep-warning mr-1" /> {{ $t('todo.priority.low') }}
             </span>
           </template>
         </el-option>
       </el-select>
-      <el-button type="primary" class="!rounded-xl px-8" @click="handleAdd">添加任务</el-button>
+      <el-button type="primary" class="!rounded-xl px-8" @click="handleAdd">{{ $t('todo.add') }}</el-button>
     </div>
 
     <!-- 任务统计 -->
     <div class="flex items-center justify-between mb-4 px-2">
       <div class="flex space-x-4 text-sm text-gray-500 font-medium">
-        <span>全部: {{ list.length }}</span>
-        <span class="text-blue-500">进行中: {{ activeCount }}</span>
-        <span class="text-green-500">已完成: {{ completedCount }}</span>
+        <span>{{ $t('todo.all') }}: {{ list.length }}</span>
+        <span class="text-blue-500">{{ $t('todo.ongoing') }}: {{ activeCount }}</span>
+        <span class="text-green-500">{{ $t('todo.completed') }}: {{ completedCount }}</span>
       </div>
-      <el-button link type="primary" size="small" @click="fetchList">刷新列表</el-button>
+      <el-button link type="primary" size="small" @click="fetchList">{{ $t('todo.refresh') }}</el-button>
     </div>
 
     <el-skeleton :loading="loading" animated :count="3">
@@ -94,7 +94,7 @@
               </p>
               <div class="flex items-center mt-1 space-x-4 text-[10px] text-gray-400">
                 <span class="flex items-center uppercase font-bold" :class="getPriorityColor(item.priority)">
-                  {{ item.priority }}
+                  {{ $t(`todo.priority.${item.priority}`) }}
                 </span>
                 <span>Created at {{ item.createTime }}</span>
               </div>
@@ -113,8 +113,8 @@
 
     <!-- 空状态 -->
     <div v-if="list.length === 0 && !loading" class="flex-center py-20 flex-col text-gray-300">
-      <i class="i-ep-document-copy text-7xl mb-4 opacity-10" />
-      <p>暂无任务，快去添加一个吧~</p>
+      <div class="i-ep-sunny text-6xl mb-4 opacity-20" />
+      <p>{{ $t('todo.empty') }}</p>
     </div>
   </div>
 </template>

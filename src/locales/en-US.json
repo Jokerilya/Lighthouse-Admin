@@ -1,0 +1,91 @@
+{
+  "common": {
+    "search": "Search",
+    "logout": "Logout",
+    "profile": "Profile",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "personal": "Personal",
+    "todo": "Todo List",
+    "notebook": "Notebook",
+    "finance": "Finance",
+    "system": "System",
+    "user": "User"
+  },
+  "user": {
+    "name": "Username",
+    "nickname": "Nickname",
+    "role": "Role",
+    "email": "Email",
+    "status": "Status",
+    "createTime": "Create Time",
+    "action": "Action",
+    "search": "Search",
+    "reset": "Reset",
+    "add": "Add User",
+    "batchDelete": "Batch Delete",
+    "edit": "Edit",
+    "delete": "Delete",
+    "admin": "Admin",
+    "normal": "User"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "stat_users": "Total Users",
+    "stat_tasks": "Today Tasks",
+    "stat_revenue": "M-Revenue",
+    "stat_active": "Activity",
+    "growth": "vs yesterday",
+    "task_trend": "Task completion trend",
+    "recent_plan": "Recent task plan",
+    "view_all": "View All"
+  },
+  "todo": {
+    "placeholder": "Add a new task...",
+    "add": "Add",
+    "empty": "No tasks yet, enjoy your life",
+    "all": "All",
+    "ongoing": "Ongoing",
+    "completed": "Completed",
+    "refresh": "Refresh",
+    "delete_confirm": "Are you sure to delete this task?",
+    "delete_success": "Task removed",
+    "add_success": "Task added",
+    "priority": {
+      "low": "Low",
+      "medium": "Med",
+      "high": "High"
+    }
+  },
+  "finance": {
+    "allocation": "Asset Allocation",
+    "registration": "Asset Registration",
+    "summary": "Account Summary",
+    "total_assets": "Total Assets",
+    "monthly_profit": "Monthly Profit",
+    "total_surplus": "Total Surplus",
+    "risk_level": "Risk Level",
+    "trend": "Profit Rate Volatility (Last 30 Days)",
+    "form": {
+      "name": "Asset Name",
+      "type": "Asset Type",
+      "value": "Holdings",
+      "stock": "Stock",
+      "fund": "Fund",
+      "cash": "Cash/Money Fund",
+      "other": "Other"
+    }
+  },
+  "notebook": {
+    "history": "Notebook History",
+    "new": "New Notebook",
+    "title_placeholder": "Input title...",
+    "save": "Save Notebook",
+    "last_save": "Last saved",
+    "empty_text": "Select or create a notebook to start",
+    "delete_confirm": "Are you sure you want to delete this notebook?"
+  }
+}

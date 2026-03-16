@@ -11,7 +11,7 @@ const whiteList = ['/login']
 /**
  * 全局路由导航守卫
  */
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   nprogress.start()
   
   const userStore = useUserStore()

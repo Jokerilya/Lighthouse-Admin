@@ -6,9 +6,9 @@
         <el-card shadow="hover" class="mb-4">
           <template #header>
             <div class="flex-between">
-              <span class="font-bold">资产构成占比</span>
+              <span class="font-bold">{{ $t('finance.allocation') }}</span>
               <el-button type="primary" size="small" @click="handleAddAsset">
-                <i class="i-ep-plus mr-1" />资产登记
+                <i class="i-ep-plus mr-1" />{{ $t('finance.registration') }}
               </el-button>
             </div>
           </template>
@@ -20,11 +20,11 @@
       <el-col :span="8">
         <el-card shadow="hover" class="h-full mb-4">
           <template #header>
-            <span class="font-bold">账户摘要</span>
+            <span class="font-bold">{{ $t('finance.summary') }}</span>
           </template>
           <div class="space-y-6">
             <div v-for="item in stats" :key="item.label" class="flex-between">
-              <span class="text-gray-500">{{ item.label }}</span>
+              <span class="text-gray-500">{{ $t(item.label) }}</span>
               <span class="text-xl font-bold" :class="item.color">{{ item.value }}</span>
             </div>
           </div>
@@ -37,7 +37,7 @@
       <el-col :span="24">
         <el-card shadow="hover">
           <template #header>
-            <span class="font-bold">收益率波动曲线 (近30天)</span>
+            <span class="font-bold">{{ $t('finance.trend') }}</span>
           </template>
           <div ref="lineChartRef" class="h-[350px]" />
         </el-card>
@@ -45,26 +45,26 @@
     </el-row>
 
     <!-- 资产登记弹窗 -->
-    <el-dialog v-model="dialogVisible" title="新增资产登记" width="400px">
+    <el-dialog v-model="dialogVisible" :title="$t('finance.registration')" width="400px">
       <el-form :model="assetForm" label-width="80px">
-        <el-form-item label="资产名称">
-          <el-input v-model="assetForm.name" placeholder="如: 腾讯控股" />
+        <el-form-item :label="$t('finance.form.name')">
+          <el-input v-model="assetForm.name" :placeholder="$t('finance.form.name')" />
         </el-form-item>
-        <el-form-item label="资产类型">
-          <el-select v-model="assetForm.type" placeholder="请选择类型" class="w-full">
-            <el-option label="股票" value="stock" />
-            <el-option label="基金" value="fund" />
-            <el-option label="现金/货币基金" value="cash" />
-            <el-option label="其他" value="other" />
+        <el-form-item :label="$t('finance.form.type')">
+          <el-select v-model="assetForm.type" :placeholder="$t('finance.form.type')" class="w-full">
+            <el-option :label="$t('finance.form.stock')" value="stock" />
+            <el-option :label="$t('finance.form.fund')" value="fund" />
+            <el-option :label="$t('finance.form.cash')" value="cash" />
+            <el-option :label="$t('finance.form.other')" value="other" />
           </el-select>
         </el-form-item>
-        <el-form-item label="持有金额">
+        <el-form-item :label="$t('finance.form.value')">
           <el-input-number v-model="assetForm.value" :min="0" class="!w-full" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitAsset">确认</el-button>
+        <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+        <el-button type="primary" @click="submitAsset">{{ $t('common.confirm') }}</el-button>
       </template>
     </el-dialog>
   </div>
@@ -82,10 +82,10 @@ let pieChart: echarts.ECharts | null = null
 let lineChart: echarts.ECharts | null = null
 
 const stats = [
-  { label: '总资产 (CNY)', value: '¥ 1,245,600.00', color: '' },
-  { label: '本月收益', value: '+ ¥ 12,400.00', color: 'text-green-500' },
-  { label: '累计盈余', value: '+ 15.4%', color: 'text-green-500' },
-  { label: '风险等级', value: '中等偏高', color: 'text-orange-500' }
+  { label: 'finance.total_assets', value: '¥ 1,245,600.00', color: '' },
+  { label: 'finance.monthly_profit', value: '+ ¥ 12,400.00', color: 'text-green-500' },
+  { label: 'finance.total_surplus', value: '+ 15.4%', color: 'text-green-500' },
+  { label: 'finance.risk_level', value: 'High', color: 'text-red-500' }
 ]
 
 const dialogVisible = ref(false)

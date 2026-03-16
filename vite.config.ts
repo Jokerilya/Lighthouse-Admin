@@ -6,33 +6,36 @@ import { resolve } from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-    // 注入 UnoCSS
-    UnoCSS(),
-    // Mock 服务配置
-    viteMockServe({
-      mockPath: 'src/mock',
-      enable: true,
-    }),
-    // 打包体积分析
-    visualizer({
-      open: true,
-      filename: 'stats.html',
-      gzipSize: true,
-      brotliSize: true,
-    }),
-  ],
-  resolve: {
-    alias: {
-      // 设置路径别名 @ 指向 src 目录
-      '@': resolve(__dirname, 'src'),
+export default defineConfig(() => {
+  return {
+    base: './', // 设置为相对路径，支持 GitHub Pages 等非根目录部署
+    plugins: [
+      vue(),
+      // 注入 UnoCSS
+      UnoCSS(),
+      // Mock 服务配置
+      viteMockServe({
+        mockPath: 'src/mock',
+        enable: true,
+      }),
+      // 打包体积分析
+      visualizer({
+        open: true,
+        filename: 'stats.html',
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ],
+    resolve: {
+      alias: {
+        // 设置路径别名 @ 指向 src 目录
+        '@': resolve(__dirname, 'src'),
+      },
     },
-  },
-  server: {
-    host: '0.0.0.0', // 监听所有地址
-    port: 3000,      // 设置开发服务器端口
-    open: true,      // 启动时自动打开浏览器
+    server: {
+      host: '0.0.0.0', // 监听所有地址
+      port: 3000,      // 设置开发服务器端口
+      open: true,      // 启动时自动打开浏览器
+    }
   }
 })

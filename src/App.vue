@@ -1,13 +1,20 @@
 <template>
-  <!-- 基于路由的视口展示 -->
-  <router-view />
+  <el-config-provider :locale="locale">
+    <router-view />
+  </el-config-provider>
 </template>
 
 <script setup lang="ts">
-/**
- * App 根组件
- * 采用极简设计，主要挂载全局路由视口
- */
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import en from 'element-plus/es/locale/lang/en'
+
+const { locale: i18nLocale } = useI18n()
+
+const locale = computed(() => {
+  return i18nLocale.value === 'zh-CN' ? zhCn : en
+})
 </script>
 
 <style>

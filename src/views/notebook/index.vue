@@ -3,7 +3,7 @@
     <!-- 左侧列表栏 -->
     <div class="list-sidebar w-80 bg-[var(--el-bg-color)] rounded-xl shadow-sm flex flex-col shrink-0 overflow-hidden">
       <div class="p-4 border-b border-[var(--el-border-color-lighter)] flex-between bg-[var(--el-fill-color-light)]">
-        <span class="font-bold text-[var(--el-text-color-primary)]">周报历史</span>
+        <span class="font-bold text-[var(--el-text-color-primary)]">{{ $t('notebook.history') }}</span>
         <el-button type="primary" size="small" circle icon="i-ep-plus" @click="handleCreate" />
       </div>
       <div class="flex-1 overflow-y-auto p-2 space-y-2">
@@ -36,17 +36,17 @@
         <div class="flex items-center space-x-4 flex-1">
           <el-input 
             v-model="currentReport.title" 
-            placeholder="请输入标题..." 
+            :placeholder="$t('notebook.title_placeholder')" 
             class="!text-lg font-bold flex-1"
           />
           <el-tag type="info" round size="small" class="shrink-0">
-            上次保存: {{ saveStatus }}
+            {{ $t('notebook.last_save') }}: {{ saveStatus }}
           </el-tag>
         </div>
         <div class="ml-4 flex items-center space-x-2">
           <el-button type="primary" :loading="saving" @click="handleSave">
             <template #icon><i class="i-ep-check" /></template>
-            保存周报
+            {{ $t('notebook.save') }}
           </el-button>
         </div>
       </div>
@@ -57,7 +57,7 @@
           :preview="true" 
           @onSave="handleSave"
           class="!h-full"
-          language="zh-CN"
+          :language="mdLanguage"
           :theme="isDark ? 'dark' : 'light'"
         />
       </div>
@@ -65,15 +65,16 @@
 
     <div v-else class="flex-1 bg-[var(--el-bg-color)] rounded-xl shadow-sm flex-center flex-col text-gray-300">
       <i class="i-ep-notebook text-8xl mb-4 opacity-10" />
-      <p>选择或创建一个周报开始记录吧</p>
-      <el-button type="primary" class="mt-4" @click="handleCreate">新建周报</el-button>
+      <p>{{ $t('notebook.empty_text') }}</p>
+      <el-button type="primary" class="mt-4" @click="handleCreate">{{ $t('notebook.new') }}</el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useDark } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { MdEditor } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -89,8 +90,13 @@ interface Report {
 const isDark = useDark()
 const reports = ref<Report[]>([])
 const currentReport = ref<Report | null>(null)
+const { locale, t } = useI18n()
 const saving = ref(false)
 const saveStatus = ref('--:--')
+
+const mdLanguage = computed(() => {
+  return locale.value === 'zh-CN' ? 'zh-CN' : 'en-US'
+})
 
 /**
  * 加载列表
@@ -144,7 +150,7 @@ const handleSave = async () => {
  * 删除
  */
 const handleDelete = (item: Report) => {
-  ElMessageBox.confirm('确定要彻底删除这份周报吗?', '提示', {
+  ElMessageBox.confirm(t('notebook.delete_confirm'), 'Warn', {
     type: 'warning'
   }).then(async () => {
     await deleteNotebook(item.id!)

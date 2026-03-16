@@ -22,23 +22,23 @@
       >
         <el-menu-item index="/dashboard">
           <i class="i-ep-monitor mr-2" />
-          <template #title>仪表盘</template>
+          <template #title>{{ $t('menu.dashboard') }}</template>
         </el-menu-item>
         <el-sub-menu index="task">
           <template #title>
             <i class="i-ep-list mr-2" />
-            <span>个人管理</span>
+            <span>{{ $t('menu.personal') }}</span>
           </template>
-          <el-menu-item index="/todo">任务清单</el-menu-item>
-          <el-menu-item index="/notebook">个人周报</el-menu-item>
-          <el-menu-item index="/finance">理财看板</el-menu-item>
+          <el-menu-item index="/todo">{{ $t('menu.todo') }}</el-menu-item>
+          <el-menu-item index="/notebook">{{ $t('menu.notebook') }}</el-menu-item>
+          <el-menu-item index="/finance">{{ $t('menu.finance') }}</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="system">
           <template #title>
             <i class="i-ep-setting mr-2" />
-            <span>系统管理</span>
+            <span>{{ $t('menu.system') }}</span>
           </template>
-          <el-menu-item index="/system/user">用户管理</el-menu-item>
+          <el-menu-item index="/system/user">{{ $t('menu.user') }}</el-menu-item>
         </el-sub-menu>
       </el-menu>
     </aside>
@@ -50,45 +50,58 @@
         <div class="flex items-center">
           <div 
             class="text-xl cursor-pointer hover:text-primary transition-colors pr-4" 
-            :class="appStore.sidebar.opened ? 'i-ep-fold' : 'i-ep-expand'"
             @click="appStore.toggleSidebar"
-          />
+          >
+            <div :class="appStore.sidebar.opened ? 'i-ep-fold' : 'i-ep-expand'" />
+          </div>
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ route.meta.title }}</el-breadcrumb-item>
+            <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="route.meta.title">{{ route.meta.title }}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
 
-        <div class="flex items-center space-x-6">
-          <!-- 搜索 -->
-          <div 
-            class="text-xl cursor-pointer hover:text-primary transition-colors i-ep-search" 
-            @click="spotlightRef?.open()" 
-          />
-
-          <!-- 暗黑模式切换 -->
-          <theme-switch />
+        <div class="flex items-center space-x-4">
+          <div class="i-ep-search text-xl cursor-pointer hover:text-primary transition-colors" @click="spotlightRef?.open()" :title="$t('common.search') + ' (Ctrl+Shift+K)'" />
           
-          <el-dropdown trigger="click" @command="handleCommand">
+          <Notification />
+          
+          <!-- 语言切换 -->
+          <el-dropdown trigger="click" @command="handleSetLanguage">
+            <div class="i-ep-comment text-xl cursor-pointer hover:text-primary transition-colors" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item :disabled="appLocale === 'zh-CN'" command="zh-CN">简体中文</el-dropdown-item>
+                <el-dropdown-item :disabled="appLocale === 'en-US'" command="en-US">English</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+
+          <ThemeSwitch />
+          <el-dropdown trigger="click">
             <div class="flex items-center cursor-pointer">
-              <el-avatar :size="32" :src="userStore.userInfo?.avatar" class="mr-2" />
-              <span class="text-sm font-medium">{{ userStore.userInfo?.username }}</span>
+              <el-avatar :size="32" :src="userStore.userInfo?.avatar || 'https://avatars.githubusercontent.com/u/1?v=4'" class="mr-2" />
+              <span class="hidden sm:inline-block text-sm font-medium">{{ userStore.userInfo?.nickname || 'Admin' }}</span>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item>{{ $t('common.profile') }}</el-dropdown-item>
+                <el-dropdown-item divided @click="handleLogout">{{ $t('common.logout') }}</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
       </header>
 
-      <!-- 路由视口 -->
-      <section class="app-main flex-1 p-4 overflow-y-auto overflow-x-hidden">
+      <!-- 多页签 -->
+      <TagsView />
+
+      <!-- 内容区 -->
+      <section class="app-main flex-1 p-4 overflow-y-auto overflow-x-hidden relative">
         <router-view v-slot="{ Component }">
           <transition name="fade-transform" mode="out-in">
-            <component :is="Component" />
+            <keep-alive :include="tagsViewStore.cachedViews">
+              <component :is="Component" :key="route.path" />
+            </keep-alive>
           </transition>
         </router-view>
       </section>
@@ -100,33 +113,57 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
+import { useTagsViewStore } from '@/store/tagsView'
+import { useWatermark } from '@/hooks/useWatermark'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import ThemeSwitch from '@/components/ThemeSwitch/index.vue'
 import Spotlight from '@/components/Spotlight/index.vue'
+import TagsView from './components/TagsView/index.vue'
+import Notification from './components/Notification/index.vue'
 
+const { locale: appLocale } = useI18n()
+const { setWatermark } = useWatermark()
 const spotlightRef = ref()
 
 const route = useRoute()
 const router = useRouter()
 const appStore = useAppStore()
 const userStore = useUserStore()
+const tagsViewStore = useTagsViewStore()
 
 const activeMenu = computed(() => route.path)
 
-const handleCommand = (command: string) => {
-  if (command === 'logout') {
-    ElMessageBox.confirm('确定注销并退出系统吗?', '提示', {
-      type: 'warning'
-    }).then(() => {
-      userStore.logout()
-      router.push('/login')
-      ElMessage.success('已退出登录')
-    })
-  }
+onMounted(() => {
+  // 应用全局水印
+  const name = userStore.userInfo?.nickname || 'Lighthouse Admin'
+  setWatermark(name)
+})
+
+/**
+ * 退出登录
+ */
+const handleLogout = () => {
+  ElMessageBox.confirm('确定注销并退出系统吗?', '提示', {
+    type: 'warning'
+  }).then(() => {
+    userStore.logout()
+    router.push('/login')
+    ElMessage.success('已退出登录')
+  })
+}
+
+/**
+ * 切换语言
+ */
+const handleSetLanguage = (lang: string) => {
+  appLocale.value = lang
+  localStorage.setItem('lang', lang)
+  ElMessage.success(lang === 'zh-CN' ? '语言切换成功' : 'Language switched')
 }
 </script>
 

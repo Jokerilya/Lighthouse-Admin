@@ -1,0 +1,91 @@
+{
+  "common": {
+    "search": "搜索",
+    "logout": "退出登录",
+    "profile": "个人中心",
+    "confirm": "确定",
+    "cancel": "取消"
+  },
+  "menu": {
+    "dashboard": "仪表盘",
+    "personal": "个人管理",
+    "todo": "任务清单",
+    "notebook": "个人周报",
+    "finance": "理财看板",
+    "system": "系统管理",
+    "user": "用户管理"
+  },
+  "user": {
+    "name": "用户名",
+    "nickname": "昵称",
+    "role": "角色",
+    "email": "邮箱",
+    "status": "状态",
+    "createTime": "创建时间",
+    "action": "操作",
+    "search": "搜索",
+    "reset": "重置",
+    "add": "新增用户",
+    "batchDelete": "批量删除",
+    "edit": "编辑",
+    "delete": "删除",
+    "admin": "管理员",
+    "normal": "普通用户"
+  },
+  "dashboard": {
+    "welcome": "欢迎回来",
+    "stat_users": "总用户数",
+    "stat_tasks": "今日任务",
+    "stat_revenue": "本月营收",
+    "stat_active": "活跃度",
+    "growth": "较昨日",
+    "task_trend": "任务完成趋势",
+    "recent_plan": "近期任务计划",
+    "view_all": "查看全部"
+  },
+  "todo": {
+    "placeholder": "添加一个新的任务...",
+    "add": "添加",
+    "empty": "暂无待办任务，享受你的生活吧",
+    "all": "全部",
+    "ongoing": "进行中",
+    "completed": "已完成",
+    "refresh": "刷新列表",
+    "delete_confirm": "确定要删除这条任务吗?",
+    "delete_success": "成功移出任务列表",
+    "add_success": "添加成功",
+    "priority": {
+      "low": "低",
+      "medium": "中",
+      "high": "高"
+    }
+  },
+  "finance": {
+    "allocation": "资产构成占比",
+    "registration": "资产登记",
+    "summary": "账户摘要",
+    "total_assets": "总资产",
+    "monthly_profit": "本月收益",
+    "total_surplus": "累计盈余",
+    "risk_level": "风险等级",
+    "trend": "收益率波动曲线 (近30天)",
+    "form": {
+      "name": "资产名称",
+      "type": "资产类型",
+      "value": "持有金额",
+      "stock": "股票",
+      "fund": "基金",
+      "cash": "现金/货币基金",
+      "other": "其他"
+    }
+  },
+  "notebook": {
+    "history": "周报历史",
+    "new": "新建周报",
+    "title_placeholder": "请输入标题...",
+    "save": "保存周报",
+    "last_save": "上次保存",
+    "empty_text": "选择或创建一个周报开始记录吧",
+    "delete_confirm": "确定要彻底删除这份周报吗?"
+  }
+}

@@ -2,10 +2,10 @@
   <div class="user-container bg-[var(--el-bg-color)] p-6 rounded-xl shadow-sm min-h-full flex flex-col">
     <!-- 搜索栏 -->
     <el-form :inline="true" :model="queryParams" ref="queryFormRef" class="mb-6">
-      <el-form-item label="用户名" prop="username">
+      <el-form-item :label="$t('user.name')" prop="username">
         <el-input
           v-model="queryParams.username"
-          placeholder="请输入用户名/昵称"
+          :placeholder="$t('user.name')"
           clearable
           @keyup.enter="handleQuery"
           class="!w-60"
@@ -14,11 +14,11 @@
       <el-form-item>
         <el-button type="primary" @click="handleQuery">
           <template #icon><i class="i-ep-search" /></template>
-          搜索
+          {{ $t('user.search') }}
         </el-button>
         <el-button @click="handleReset(queryFormRef)">
           <template #icon><i class="i-ep-refresh" /></template>
-          重置
+          {{ $t('user.reset') }}
         </el-button>
       </el-form-item>
     </el-form>
@@ -27,11 +27,11 @@
     <div class="mb-4">
       <el-button type="primary" @click="handleAdd">
         <template #icon><i class="i-ep-plus" /></template>
-        新增用户
+        {{ $t('user.add') }}
       </el-button>
       <el-button type="danger" plain @click="handleBatchDelete">
         <template #icon><i class="i-ep-delete" /></template>
-        批量删除
+        {{ $t('user.batchDelete') }}
       </el-button>
     </div>
 
@@ -45,17 +45,17 @@
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="username" label="用户名" min-width="120" />
-      <el-table-column prop="nickname" label="昵称" min-width="120" />
-      <el-table-column prop="role" label="角色" width="100">
+      <el-table-column prop="username" :label="$t('user.name')" min-width="120" />
+      <el-table-column prop="nickname" :label="$t('user.nickname')" min-width="120" />
+      <el-table-column prop="role" :label="$t('user.role')" width="100">
         <template #default="{ row }">
           <el-tag :type="row.role === 'admin' ? 'danger' : 'info'">
-            {{ row.role === 'admin' ? '管理员' : '普通用户' }}
+            {{ row.role === 'admin' ? $t('user.admin') : $t('user.normal') }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" min-width="180" />
-      <el-table-column prop="status" label="状态" width="100" align="center">
+      <el-table-column prop="email" :label="$t('user.email')" min-width="180" />
+      <el-table-column prop="status" :label="$t('user.status')" width="100" align="center">
         <template #default="{ row }">
           <el-switch
             v-model="row.status"
@@ -65,16 +65,16 @@
           />
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="180" align="center" />
-      <el-table-column label="操作" width="180" fixed="right" align="center">
+      <el-table-column prop="createTime" :label="$t('user.createTime')" width="180" align="center" />
+      <el-table-column :label="$t('user.action')" width="180" fixed="right" align="center">
         <template #default="{ row }">
           <el-button link type="primary" @click="handleEdit(row)">
             <template #icon><i class="i-ep-edit" /></template>
-            编辑
+            {{ $t('user.edit') }}
           </el-button>
           <el-button link type="danger" @click="handleDelete(row)">
             <template #icon><i class="i-ep-delete" /></template>
-            删除
+            {{ $t('user.delete') }}
           </el-button>
         </template>
       </el-table-column>

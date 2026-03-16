@@ -18,12 +18,22 @@ import './styles/index.scss'
 /**
  * 初始化 Vue 应用入口
  */
+import i18n from './locales'
+
+if (import.meta.env.PROD) {
+  import('./mockProdServer').then(({ setupProdMockServer }) => {
+    setupProdMockServer()
+  })
+}
+
 const app = createApp(App)
 
 // 注册状态管理
 app.use(createPinia())
 // 注册路由
 app.use(router)
+// 注册 i18n
+app.use(i18n)
 // 注册 Element Plus，并配置中文语言包
 app.use(ElementPlus, {
   locale: zhCn,

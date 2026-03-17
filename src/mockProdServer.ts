@@ -8,6 +8,7 @@ import dictMock from './mock/dict'
 import deptMock from './mock/dept'
 import menuMock from './mock/menu'
 import roleMock from './mock/role'
+import loginMock from './mock/login'
 
 /**
  * 手动创建生产环境的 Mock 服务
@@ -21,6 +22,7 @@ export function setupProdMockServer() {
     ...dictMock,
     ...deptMock,
     ...menuMock,
-    ...roleMock
+    ...roleMock,
+    ...loginMock
   ])
 }

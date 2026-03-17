@@ -1,5 +1,4 @@
 import { MockMethod } from 'vite-plugin-mock'
-import Mock from 'mockjs'
 
 // 模拟字典数据
 let dictList = [
